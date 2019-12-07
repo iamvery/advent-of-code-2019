@@ -5,23 +5,23 @@ module Intcode
     integers.join(",")
   end
 
-  def self.run(integers, position = 0)
-    opcode = integers[position]
-    first_input_position = integers[position+1]
-    second_input_position = integers[position+2]
-    output_position = integers[position+3]
+  def self.run(codes, position = 0)
+    opcode = codes[position]
+    first_input_position = codes[position+1]
+    second_input_position = codes[position+2]
+    output_position = codes[position+3]
 
-    integers[output_position] = case opcode
+    codes[output_position] = case opcode
     when 1
-      integers[first_input_position] + integers[second_input_position]
+      codes[first_input_position] + codes[second_input_position]
     when 2
-      integers[first_input_position] * integers[second_input_position]
+      codes[first_input_position] * codes[second_input_position]
     when 99
       return
     else
       fail "Unknown opcode: #{opcode}"
     end
 
-    run(integers, position + 4)
+    run(codes, position + 4)
   end
 end
