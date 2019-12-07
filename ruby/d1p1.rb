@@ -1,6 +1,6 @@
 require "./lib/fuel_cost"
 
-lines = File.read("../input/d1p1.txt").split("\n")
+lines = File.read("../input/day1.txt").split("\n")
 masses = lines.map { |line| Integer(line) }
 
 total_fuel_cost = masses
