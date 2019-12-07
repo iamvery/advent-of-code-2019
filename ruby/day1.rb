@@ -7,4 +7,10 @@ total_fuel_cost = masses
   .map { |mass| FuelCost.(mass: mass) }
   .reduce(:+)
 
-puts "Total fuel cost: #{total_fuel_cost}"
+puts "(part 1) Total fuel cost: #{total_fuel_cost}"
+
+total_fuel_cost = masses
+  .map { |mass| FuelCost.calculate(mass: mass) }
+  .reduce(:+)
+
+puts "(part 2) Total fuel cost: #{total_fuel_cost}"
