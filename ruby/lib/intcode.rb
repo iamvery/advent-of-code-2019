@@ -1,8 +1,8 @@
 module Intcode
   def self.call(program)
     integers = program.split(",").map { |i| Integer(i) }
-    run(integers)
-    integers.join(",")
+    result = run(integers)
+    result.join(",")
   end
 
   def self.run(codes, position = 0)
@@ -17,7 +17,7 @@ module Intcode
     when 2
       codes[first_input_position] * codes[second_input_position]
     when 99
-      return
+      return codes
     else
       fail "Unknown opcode: #{opcode}"
     end
