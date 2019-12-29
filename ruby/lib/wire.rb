@@ -27,4 +27,8 @@ Wire = Struct.new(:points, :parts) do
 
     new(points, parts)
   end
+
+  def steps_at(point)
+    points.find_index(point) + 1
+  end
 end

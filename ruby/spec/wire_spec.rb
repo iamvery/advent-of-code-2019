@@ -23,4 +23,16 @@ RSpec.describe Wire do
       ])
     end
   end
+
+  describe "#steps_at" do
+    it "returns number steps at given point" do
+      wire = Wire.new([
+        point1 = Point.new(0,1),
+        point2 = Point.new(0,2),
+      ])
+
+      expect(wire.steps_at(point1)).to eq(1)
+      expect(wire.steps_at(point2)).to eq(2)
+    end
+  end
 end
