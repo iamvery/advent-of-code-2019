@@ -6,6 +6,7 @@ Wire = Struct.new(:parts) do
     pieces = path.split(",")
     point = Point.new(0,0)
     part = Part.new(point, 0)
+    points = []
     parts = []
 
     pieces.each do |piece|
@@ -13,10 +14,10 @@ Wire = Struct.new(:parts) do
       steps = Integer(piece[1..])
       steps.times do
         case direction
-        when "U" then point = point.up
-        when "D" then point = point.down
-        when "R" then point = point.right
-        when "L" then point = point.left
+        when "U" then points << point = point.up
+        when "D" then points << point = point.down
+        when "R" then points << point = point.right
+        when "L" then points << point = point.left
         else
           fail "unknown direction #{direction}"
         end
