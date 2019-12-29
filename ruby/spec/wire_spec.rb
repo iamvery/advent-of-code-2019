@@ -13,15 +13,6 @@ RSpec.describe Wire do
         Point.new(3,2),
       ])
     end
-
-    it "generates parts" do
-      wire = Wire.parse("D2,R1")
-      expect(wire.parts).to match_array([
-        Part.new(Point.new(0,-1), 1),
-        Part.new(Point.new(0,-2), 2),
-        Part.new(Point.new(1,-2), 3),
-      ])
-    end
   end
 
   describe "#steps_at" do
