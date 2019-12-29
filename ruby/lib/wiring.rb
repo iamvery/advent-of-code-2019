@@ -11,6 +11,14 @@ class Wiring
     intersections.map { |p| manhattan_distance(Point.new(0,0), p) }.min
   end
 
+  def steps
+    intersections.map { |point|
+      wire1_part = @wire1.parts.find { |part| part.point == point }
+      wire2_part = @wire2.parts.find { |part| part.point == point }
+      wire1_part.step + wire2_part.step
+    }.min
+  end
+
   private
 
   def intersections

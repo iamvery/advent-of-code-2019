@@ -7,11 +7,13 @@ RSpec.describe Wiring do
 
     wiring = described_class.new(wire1, wire2)
     expect(wiring.distance).to eq(159)
+    expect(wiring.steps).to eq(610)
 
     wire1 = "R98,U47,R26,D63,R33,U87,L62,D20,R33,U53,R51"
     wire2 = "U98,R91,D20,R16,D67,R40,U7,R15,U6,R7"
 
     wiring = described_class.new(wire1, wire2)
     expect(wiring.distance).to eq(135)
+    expect(wiring.steps).to eq(410)
   end
 end
