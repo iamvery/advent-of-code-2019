@@ -9,3 +9,4 @@ puts "path2:", path2
 wiring = Wiring.new(path1, path2)
 
 puts "(part 1) Distance: #{wiring.distance}"
+puts "(part 2) Steps: #{wiring.steps}"
