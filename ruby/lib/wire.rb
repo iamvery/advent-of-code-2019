@@ -1,10 +1,13 @@
+require "part"
 require "point"
 
-Wire = Struct.new(:points) do
+Wire = Struct.new(:points, :parts) do
   def self.parse(path)
     pieces = path.split(",")
     point = Point.new(0,0)
+    part = Part.new(point, 0)
     points = []
+    parts = []
 
     pieces.each do |piece|
       direction = piece[0]
@@ -18,9 +21,10 @@ Wire = Struct.new(:points) do
         else
           fail "unknown direction #{direction}"
         end
+        parts << part = Part.new(point, part.step+1)
       end
     end
 
-    new(points)
+    new(points, parts)
   end
 end
