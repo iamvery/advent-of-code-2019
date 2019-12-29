@@ -1,7 +1,7 @@
 require "part"
 require "point"
 
-Wire = Struct.new(:points, :parts) do
+Wire = Struct.new(:parts) do
   def self.parse(path)
     pieces = path.split(",")
     point = Point.new(0,0)
@@ -25,6 +25,10 @@ Wire = Struct.new(:points, :parts) do
       end
     end
 
-    new(points, parts)
+    new(parts)
+  end
+
+  def points
+    parts.map(&:point)
   end
 end
