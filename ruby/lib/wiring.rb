@@ -13,9 +13,7 @@ class Wiring
 
   def steps
     intersections.map { |point|
-      wire1_part = @wire1.parts.find { |part| part.point == point }
-      wire2_part = @wire2.parts.find { |part| part.point == point }
-      wire1_part.step + wire2_part.step
+      @wire1.steps_at(point) + @wire2.steps_at(point)
     }.min
   end
 
