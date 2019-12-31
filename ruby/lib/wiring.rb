@@ -12,9 +12,7 @@ class Wiring
   end
 
   def steps
-    intersections.map { |point|
-      @wire1.steps_at(point) + @wire2.steps_at(point)
-    }.min
+    intersections.map { |p| @wire1.steps_at(p) + @wire2.steps_at(p) }.min
   end
 
   private
