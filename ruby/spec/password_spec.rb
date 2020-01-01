@@ -7,7 +7,6 @@ RSpec.describe Password do
     end
 
     it "must have two adjacent digits that are the same" do
-      pending
       expect(described_class.valid?(123456)).to be(false)
     end
 
