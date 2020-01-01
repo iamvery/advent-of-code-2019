@@ -11,12 +11,10 @@ RSpec.describe Password do
     end
 
     it "must contain only increasing digits from left the right" do
-      pending
       expect(described_class.valid?(111110)).to be(false)
     end
 
     it "validates examples" do
-      pending
       expect(described_class.valid?(111111)).to be(true)
       expect(described_class.valid?(223450)).to be(false)
       expect(described_class.valid?(123789)).to be(false)
