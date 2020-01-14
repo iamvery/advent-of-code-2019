@@ -21,17 +21,17 @@ class Computer
       first_input, second_input, output = get_parameters(count: 3)
       @memory = Operations::Addition.new(first_input, second_input, output).call(memory)
       @position += 4
-      run
     when [2], [2,0]
       first_input, second_input, output = get_parameters(count: 3)
       @memory = Operations::Multiplication.new(first_input, second_input, output).call(memory)
       @position += 4
-      run
     when [9,9]
       return memory
     else
       fail "Unknown opcode: #{opcode}"
     end
+
+    run
   end
 
   private
