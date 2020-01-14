@@ -4,11 +4,18 @@ require "computer/operations"
 class Computer
   def self.call(program)
     memory = program.split(",").map { |i| Integer(i) }
-    result = run(memory)
+    result = new(memory).run
     result.join(",")
   end
 
-  def self.run(memory, position = 0)
+  attr_reader :memory, :position
+
+  def initialize(memory, position = 0)
+    @memory = memory
+    @position = position
+  end
+
+  def run
     instruction = memory[position]
     digits = instruction.digits
     opcode = digits.take(2)
@@ -25,8 +32,9 @@ class Computer
         end
       }
       first_input, second_input, output = parameters
-      next_memory = Operations::Addition.new(first_input, second_input, output).call(memory)
-      run(next_memory, position + 4)
+      @memory = Operations::Addition.new(first_input, second_input, output).call(memory)
+      @position += 4
+      run
     when [2], [2,0]
       parameter_memory = memory[position+1..position+3]
       parameters = parameter_memory.zip(parameter_modes).map { |(mem, mode)|
@@ -37,8 +45,9 @@ class Computer
         end
       }
       first_input, second_input, output = parameters
-      next_memory = Operations::Multiplication.new(first_input, second_input, output).call(memory)
-      run(next_memory, position + 4)
+      @memory = Operations::Multiplication.new(first_input, second_input, output).call(memory)
+      @position += 4
+      run
     when [9,9]
       return memory
     else
