@@ -27,11 +27,11 @@ class Computer
       first_input, second_input, output = get_parameters(count: 3)
       @memory = Operations::Multiplication.new(first_input, second_input, output).call(memory)
       @position += 4
-    when [3]
+    when [3], [3,0]
       position, = get_parameters(count: 1)
       @memory = Operations::Input.new(position, @input).call(memory)
       @position += 2
-    when [4]
+    when [4], [4,0]
       position, = get_parameters(count: 1)
       Operations::Output.new(position, @output).call(memory)
       @position += 2
