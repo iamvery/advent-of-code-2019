@@ -16,35 +16,14 @@ class Computer
   end
 
   def run
-    instruction = memory[position]
-    digits = instruction.digits
-    opcode = digits.take(2)
-    parameter_modes = Array(digits[2..])
-
     case opcode
     when [1], [1,0]
-      parameter_memory = memory[position+1..position+3]
-      parameters = parameter_memory.zip(parameter_modes).map { |(mem, mode)|
-        case mode
-        when 1 then Parameters::Immediate.new(mem)
-        else
-          Parameters::Positional.new(mem)
-        end
-      }
-      first_input, second_input, output = parameters
+      first_input, second_input, output = get_parameters(count: 3)
       @memory = Operations::Addition.new(first_input, second_input, output).call(memory)
       @position += 4
       run
     when [2], [2,0]
-      parameter_memory = memory[position+1..position+3]
-      parameters = parameter_memory.zip(parameter_modes).map { |(mem, mode)|
-        case mode
-        when 1 then Parameters::Immediate.new(mem)
-        else
-          Parameters::Positional.new(mem)
-        end
-      }
-      first_input, second_input, output = parameters
+      first_input, second_input, output = get_parameters(count: 3)
       @memory = Operations::Multiplication.new(first_input, second_input, output).call(memory)
       @position += 4
       run
@@ -53,5 +32,30 @@ class Computer
     else
       fail "Unknown opcode: #{opcode}"
     end
+  end
+
+  private
+
+  def opcode
+    instruction.digits.take(2)
+  end
+
+  def get_parameters(count:)
+    parameter_memory = memory[position+1..position+count]
+    parameter_memory.zip(parameter_modes).map { |(mem, mode)|
+      case mode
+      when 1 then Parameters::Immediate.new(mem)
+      else
+        Parameters::Positional.new(mem)
+      end
+    }
+  end
+
+  def parameter_modes
+    Array(instruction.digits[2..])
+  end
+
+  def instruction
+    memory[position]
   end
 end
