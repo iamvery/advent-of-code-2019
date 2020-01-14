@@ -1,4 +1,4 @@
-module Computer
+class Computer
   module Parameters
     Positional = Struct.new(:position) do
       def read(memory)

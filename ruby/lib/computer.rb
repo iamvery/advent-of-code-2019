@@ -1,7 +1,7 @@
 require "computer/parameters"
 require "computer/operations"
 
-module Computer
+class Computer
   def self.call(program)
     memory = program.split(",").map { |i| Integer(i) }
     result = run(memory)

@@ -1,4 +1,4 @@
-module Computer
+class Computer
   module Operations
     class Output
       def initialize(position, output = $stdout)

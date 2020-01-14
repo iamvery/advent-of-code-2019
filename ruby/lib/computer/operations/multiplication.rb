@@ -1,4 +1,4 @@
-module Computer
+class Computer
   module Operations
     Multiplication = Struct.new(:left_input, :right_input, :output) do
       def call(memory)

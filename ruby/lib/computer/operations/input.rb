@@ -1,4 +1,4 @@
-module Computer
+class Computer
   module Operations
     class Input
       def initialize(position, input = $stdin)

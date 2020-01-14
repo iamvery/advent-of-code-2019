@@ -1,4 +1,4 @@
-module Computer
+class Computer
   module Parameters
     Immediate = Struct.new(:value) do
       def read(_memory)
