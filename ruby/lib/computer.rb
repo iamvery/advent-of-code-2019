@@ -10,9 +10,11 @@ class Computer
 
   attr_reader :memory, :position
 
-  def initialize(memory, position = 0)
+  def initialize(memory, position = 0, input = $stdin, output = $stdout)
     @memory = memory
     @position = position
+    @input = input
+    @output = output
   end
 
   def run
@@ -25,6 +27,14 @@ class Computer
       first_input, second_input, output = get_parameters(count: 3)
       @memory = Operations::Multiplication.new(first_input, second_input, output).call(memory)
       @position += 4
+    when [3]
+      position, = get_parameters(count: 1)
+      @memory = Operations::Input.new(position, @input).call(memory)
+      @position += 2
+    when [4]
+      position, = get_parameters(count: 1)
+      Operations::Output.new(position, @output).call(memory)
+      @position += 2
     when [9,9]
       return memory
     else

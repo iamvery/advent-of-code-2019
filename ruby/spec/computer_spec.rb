@@ -1,3 +1,4 @@
+require "stringio"
 require "computer"
 
 RSpec.describe Computer do
@@ -8,5 +9,10 @@ RSpec.describe Computer do
     expect(described_class.("1,1,1,4,99,5,6,0,99")).to eq("30,1,1,4,2,5,6,0,99")
     expect(described_class.("1002,4,3,4,33")).to eq("1002,4,3,4,99")
     expect(described_class.("1101,100,-1,4,0")).to eq("1101,100,-1,4,99")
+
+    input = StringIO.new("123")
+    output = StringIO.new
+    described_class.new([3,0,4,0,99], 0, input, output).run
+    expect(output.string).to eq("123\n")
   end
 end
