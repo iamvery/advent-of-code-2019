@@ -37,11 +37,15 @@ class Computer
       @position += 2
     when [7], [7,0]
       left, right, output = get_parameters(count: 3)
-      @memory = Operations::LessThan.new(left, right, output).call(memory)
+      @memory = Operations::Binary
+        .new(left, right, output)
+        .call(memory) { |l, r| l < r }
       @position += 4
     when [8], [8,0]
       left, right, output = get_parameters(count: 3)
-      @memory = Operations::Equals.new(left, right, output).call(memory)
+      @memory = Operations::Binary
+        .new(left, right, output)
+        .call(memory) { |l, r| l == r }
       @position += 4
     when [9,9]
       return memory
