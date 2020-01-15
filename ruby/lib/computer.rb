@@ -80,9 +80,9 @@ class Computer
     parameter_memory = memory[position+1..position+count]
     parameter_memory.zip(parameter_modes).map { |(mem, mode)|
       case mode
-      when 1 then Parameters::Immediate.new(mem)
+      when 1 then Params::Immediate(mem)
       else
-        Parameters::Positional.new(mem)
+        Params::Positional(mem)
       end
     }
   end
