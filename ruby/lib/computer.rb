@@ -21,41 +21,41 @@ class Computer
     case opcode
     when 1
       first_input, second_input, output = get_parameters(count: 3)
-      @memory = Operations::Addition.new(first_input, second_input, output).call(memory)
+      @memory = Op::Addition.new(first_input, second_input, output).call(memory)
       @position += 4
     when 2
       first_input, second_input, output = get_parameters(count: 3)
-      @memory = Operations::Multiplication.new(first_input, second_input, output).call(memory)
+      @memory = Op::Multiplication.new(first_input, second_input, output).call(memory)
       @position += 4
     when 3
       position, = get_parameters(count: 1)
-      @memory = Operations::Input.new(position, @input).call(memory)
+      @memory = Op::Input.new(position, @input).call(memory)
       @position += 2
     when 4
       position, = get_parameters(count: 1)
-      Operations::Output.new(position, @output).call(memory)
+      Op::Output.new(position, @output).call(memory)
       @position += 2
     when 5
       operand, result = get_parameters(count: 2)
-      new_position = Operations::Unary
+      new_position = Op::Unary
         .new(operand, result)
         .call(memory) { |v| v != 0 }
       @position = new_position || @position + 3
     when 6
       operand, result = get_parameters(count: 2)
-      new_position = Operations::Unary
+      new_position = Op::Unary
         .new(operand, result)
         .call(memory) { |v| v == 0 }
       @position = new_position || @position + 3
     when 7
       left, right, output = get_parameters(count: 3)
-      @memory = Operations::Binary
+      @memory = Op::Binary
         .new(left, right, output)
         .call(memory) { |l, r| l < r }
       @position += 4
     when 8
       left, right, output = get_parameters(count: 3)
-      @memory = Operations::Binary
+      @memory = Op::Binary
         .new(left, right, output)
         .call(memory) { |l, r| l == r }
       @position += 4

@@ -6,3 +6,7 @@ require "computer/operations/jump_if_true"
 require "computer/operations/jump_if_false"
 require "computer/operations/unary"
 require "computer/operations/binary"
+
+class Computer
+  Op = Operations
+end
