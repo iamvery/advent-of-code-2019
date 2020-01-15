@@ -106,25 +106,27 @@ RSpec.describe Computer::Operations do
   end
 
   describe Computer::Operations::Unary do
-    describe "the first parameter is non-zero" do
+    describe "condition evaluates to true" do
       it "returns the second parameter" do
         first_param = Computer::Parameters::Immediate.new(1)
         second_param = Computer::Parameters::Positional.new(0)
         memory = [123]
         operation = described_class.new(first_param, second_param)
 
-        expect(operation.(memory)).to eq(123)
+        result = operation.(memory) { |v| v != 0 }
+        expect(result).to eq(123)
       end
     end
 
-    describe "the first parameter is zero" do
+    describe "condition evaluates to false" do
       it "returns nil" do
         first_param = Computer::Parameters::Immediate.new(0)
         second_param = double
         memory = []
         operation = described_class.new(first_param, second_param)
 
-        expect(operation.(memory)).to be(nil)
+        result = operation.(memory) { |v| v != 0 }
+        expect(result).to be(nil)
       end
     end
   end
