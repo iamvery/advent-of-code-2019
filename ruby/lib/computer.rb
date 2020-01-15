@@ -19,47 +19,47 @@ class Computer
 
   def run
     case opcode
-    when [1], [1,0]
+    when 1
       first_input, second_input, output = get_parameters(count: 3)
       @memory = Operations::Addition.new(first_input, second_input, output).call(memory)
       @position += 4
-    when [2], [2,0]
+    when 2
       first_input, second_input, output = get_parameters(count: 3)
       @memory = Operations::Multiplication.new(first_input, second_input, output).call(memory)
       @position += 4
-    when [3], [3,0]
+    when 3
       position, = get_parameters(count: 1)
       @memory = Operations::Input.new(position, @input).call(memory)
       @position += 2
-    when [4], [4,0]
+    when 4
       position, = get_parameters(count: 1)
       Operations::Output.new(position, @output).call(memory)
       @position += 2
-    when [5], [5,0]
+    when 5
       operand, result = get_parameters(count: 2)
       new_position = Operations::Unary
         .new(operand, result)
         .call(memory) { |v| v != 0 }
       @position = new_position || @position + 3
-    when [6], [6,0]
+    when 6
       operand, result = get_parameters(count: 2)
       new_position = Operations::Unary
         .new(operand, result)
         .call(memory) { |v| v == 0 }
       @position = new_position || @position + 3
-    when [7], [7,0]
+    when 7
       left, right, output = get_parameters(count: 3)
       @memory = Operations::Binary
         .new(left, right, output)
         .call(memory) { |l, r| l < r }
       @position += 4
-    when [8], [8,0]
+    when 8
       left, right, output = get_parameters(count: 3)
       @memory = Operations::Binary
         .new(left, right, output)
         .call(memory) { |l, r| l == r }
       @position += 4
-    when [9,9]
+    when 99
       return memory
     else
       fail "Unknown opcode: #{opcode}"
@@ -71,7 +71,9 @@ class Computer
   private
 
   def opcode
-    instruction.digits.take(2)
+    tens = (0..).lazy.map { |n| 10**n }
+    digits = instruction.digits.take(2)
+    digits.zip(tens).map { |(n,b)| n*b }.sum
   end
 
   def get_parameters(count:)
