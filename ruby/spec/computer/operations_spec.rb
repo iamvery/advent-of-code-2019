@@ -1,10 +1,6 @@
 require "stringio"
-require "computer/operations/addition"
-require "computer/operations/multiplication"
-require "computer/operations/input"
-require "computer/operations/output"
-require "computer/parameters/immediate"
-require "computer/parameters/positional"
+require "computer/operations"
+require "computer/parameters"
 
 RSpec.describe Computer::Operations do
   describe Computer::Operations::Addition do
@@ -58,6 +54,118 @@ RSpec.describe Computer::Operations do
       operation.(memory)
 
       expect(output.string).to eq("123\n")
+    end
+  end
+
+  describe Computer::Operations::JumpIfTrue do
+    describe "the first parameter is zero" do
+      it "does not call block" do
+        first_parameter = Computer::Parameters::Immediate.new(0)
+        second_parameter = double
+        memory = []
+        operation = described_class.new(first_parameter, second_parameter)
+
+        expect { |b| operation.(memory, &b) }.not_to yield_control
+      end
+    end
+
+    describe "the first parameter is non-zero" do
+      it "does calls block" do
+        first_parameter = Computer::Parameters::Immediate.new(1)
+        second_parameter = Computer::Parameters::Positional.new(0)
+        memory = [123]
+        operation = described_class.new(first_parameter, second_parameter)
+
+        expect { |b| operation.(memory, &b) }.to yield_with_args(123)
+      end
+    end
+  end
+
+  describe Computer::Operations::JumpIfFalse do
+    describe "the first parameter is zero" do
+      it "does calls block" do
+        first_parameter = Computer::Parameters::Immediate.new(0)
+        second_parameter = Computer::Parameters::Positional.new(0)
+        memory = [123]
+        operation = described_class.new(first_parameter, second_parameter)
+
+        expect { |b| operation.(memory, &b) }.to yield_with_args(123)
+      end
+    end
+
+    describe "the first parameter is non-zero" do
+      it "does not call block" do
+        first_parameter = Computer::Parameters::Immediate.new(1)
+        second_parameter = double
+        memory = []
+        operation = described_class.new(first_parameter, second_parameter)
+
+        expect { |b| operation.(memory, &b) }.not_to yield_control
+      end
+    end
+  end
+
+  describe Computer::Operations::LessThan do
+    describe "first parameter is less than second parameter" do
+      it "stores '1' at third parameter" do
+        first_param = Computer::Parameters::Immediate.new(1)
+        second_param = Computer::Parameters::Immediate.new(2)
+        third_param = Computer::Parameters::Positional.new(0)
+        memory = []
+        operation = described_class.new(first_param, second_param, third_param)
+
+        expect(operation.call(memory)).to eq([1])
+      end
+    end
+
+    describe "first parameter is greater than second parameter" do
+      it "stores '0' at third parameter" do
+        first_param = Computer::Parameters::Immediate.new(2)
+        second_param = Computer::Parameters::Immediate.new(1)
+        third_param = Computer::Parameters::Positional.new(0)
+        memory = []
+        operation = described_class.new(first_param, second_param, third_param)
+
+        expect(operation.call(memory)).to eq([0])
+      end
+    end
+
+    describe "first parameter is equal to second parameter" do
+      it "stores '0' at third parameter" do
+        first_param = Computer::Parameters::Immediate.new(1)
+        second_param = Computer::Parameters::Immediate.new(1)
+        third_param = Computer::Parameters::Positional.new(0)
+        memory = []
+        operation = described_class.new(first_param, second_param, third_param)
+
+        expect(operation.call(memory)).to eq([0])
+      end
+    end
+  end
+
+  describe Computer::Operations::Equals do
+    describe "first parameter is equal to second parameter" do
+      it "stores '1' at third parameter" do
+        first_param = Computer::Parameters::Immediate.new(1)
+        second_param = Computer::Parameters::Immediate.new(1)
+        third_param = Computer::Parameters::Positional.new(0)
+        memory = []
+        operation = described_class.new(first_param, second_param, third_param)
+
+        expect(operation.call(memory)).to eq([1])
+      end
+    end
+
+    describe "first parameter is not equal to second parameter" do
+      it "stores '0' at third parameter" do
+        first_param = Computer::Parameters::Immediate.new(2)
+        second_param = Computer::Parameters::Immediate.new(1)
+        third_param = Computer::Parameters::Positional.new(0)
+        memory = []
+        operation = described_class.new(first_param, second_param, third_param)
+
+        expect(operation.call(memory)).to eq([0])
+      end
     end
   end
 end
