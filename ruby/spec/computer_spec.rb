@@ -15,4 +15,34 @@ RSpec.describe Computer do
     described_class.new([3,0,4,0,99], 0, input, output).run
     expect(output.string).to eq("123\n")
   end
+
+  it "runs conditional logic" do
+    input = StringIO.new("8")
+    output = StringIO.new
+    described_class.new([3,9,8,9,10,9,4,9,99,-1,8], 0, input, output).run
+    expect(output.string).to eq("1\n")
+    input = StringIO.new("1")
+    output = StringIO.new
+    described_class.new([3,9,8,9,10,9,4,9,99,-1,8], 0, input, output).run
+    expect(output.string).to eq("0\n")
+
+    input = StringIO.new("7")
+    output = StringIO.new
+    described_class.new([3,9,7,9,10,9,4,9,99,-1,8], 0, input, output).run
+    expect(output.string).to eq("1\n")
+    input = StringIO.new("9")
+    output = StringIO.new
+    described_class.new([3,9,7,9,10,9,4,9,99,-1,8], 0, input, output).run
+    expect(output.string).to eq("0\n")
+
+    input = StringIO.new("8")
+    output = StringIO.new
+    described_class.new([3,3,1108,-1,8,3,4,3,99], 0, input, output).run
+    expect(output.string).to eq("1\n")
+
+    input = StringIO.new("7")
+    output = StringIO.new
+    described_class.new([3,3,1107,-1,8,3,4,3,99], 0, input, output).run
+    expect(output.string).to eq("1\n")
+  end
 end
