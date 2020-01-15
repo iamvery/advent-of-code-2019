@@ -71,9 +71,9 @@ class Computer
   private
 
   def opcode
-    tens = (0..).lazy.map { |n| 10**n }
+    tens = (0..).lazy.map { |n| 10**n } # [1, 10, 100, ...]
     digits = instruction.digits.take(2)
-    digits.zip(tens).map { |(n,b)| n*b }.sum
+    digits.zip(tens).map { |(n,b)| n*b }.sum # [3, 20, 100] -> 123
   end
 
   def get_parameters(count:)
