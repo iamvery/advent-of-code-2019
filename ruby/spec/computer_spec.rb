@@ -45,4 +45,26 @@ RSpec.describe Computer do
     described_class.new([3,3,1107,-1,8,3,4,3,99], 0, input, output).run
     expect(output.string).to eq("1\n")
   end
+
+  it "runs jump logic" do
+    input = StringIO.new("0")
+    output = StringIO.new
+    described_class.new([3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9], 0, input, output).run
+    expect(output.string).to eq("0\n")
+
+    input = StringIO.new("2")
+    output = StringIO.new
+    described_class.new([3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9], 0, input, output).run
+    expect(output.string).to eq("1\n")
+
+    input = StringIO.new("0")
+    output = StringIO.new
+    described_class.new([3,3,1105,-1,9,1101,0,0,12,4,12,99,1], 0, input, output).run
+    expect(output.string).to eq("0\n")
+
+    input = StringIO.new("2")
+    output = StringIO.new
+    described_class.new([3,3,1105,-1,9,1101,0,0,12,4,12,99,1], 0, input, output).run
+    expect(output.string).to eq("1\n")
+  end
 end

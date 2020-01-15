@@ -35,6 +35,18 @@ class Computer
       position, = get_parameters(count: 1)
       Operations::Output.new(position, @output).call(memory)
       @position += 2
+    when [5], [5,0]
+      operand, result = get_parameters(count: 2)
+      new_position = Operations::Unary
+        .new(operand, result)
+        .call(memory) { |v| v != 0 }
+      @position = new_position || @position + 3
+    when [6], [6,0]
+      operand, result = get_parameters(count: 2)
+      new_position = Operations::Unary
+        .new(operand, result)
+        .call(memory) { |v| v == 0 }
+      @position = new_position || @position + 3
     when [7], [7,0]
       left, right, output = get_parameters(count: 3)
       @memory = Operations::Binary
