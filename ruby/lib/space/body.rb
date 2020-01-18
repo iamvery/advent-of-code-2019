@@ -1,5 +1,5 @@
 module Space
-  Body = Struct.new(:body) do
+  Body = Struct.new(:id, :body) do
     def indirect_orbits
       if body
         1 + body.indirect_orbits

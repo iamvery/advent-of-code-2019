@@ -21,4 +21,24 @@ RSpec.describe Space::Orbits do
 
     expect(indirect_orbits).to eq(42)
   end
+
+  it "handles randomly-ordered orbit data" do
+    orbit_data = <<~DATA
+      B)C
+      A)B
+      COM)A
+    DATA
+
+    bodies = described_class.process(orbit_data)
+    com = Space::Body.new("COM")
+    a = Space::Body.new("A", com)
+    b = Space::Body.new("B", a)
+    c = Space::Body.new("C", b)
+    expect(bodies).to eq(
+      "COM" => com,
+      "A" => a,
+      "B" => b,
+      "C" => c,
+    )
+  end
 end
