@@ -1,7 +1,7 @@
 require "space/body"
 
 module Space
-  module Orbits
+  Orbits = Struct.new(:bodies) do
     def self.process(data)
       data = data.split.map { |orbit| orbit.split(")") }
       bodies = Hash.new { |h, k|
@@ -14,6 +14,10 @@ module Space
         orbiting_body.body = orbited_body
         bodies.tap { |b| b.store(orbiting_id, orbiting_body) }
       }
+    end
+
+    def indirect_orbits
+      bodies.values.map(&:indirect_orbits).reduce(&:+)
     end
   end
 end

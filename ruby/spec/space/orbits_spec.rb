@@ -17,9 +17,9 @@ RSpec.describe Space::Orbits do
     DATA
 
     bodies = described_class.process(orbit_data)
-    indirect_orbits = bodies.values.map(&:indirect_orbits).reduce(&:+)
+    orbits = described_class.new(bodies)
 
-    expect(indirect_orbits).to eq(42)
+    expect(orbits.indirect_orbits).to eq(42)
   end
 
   it "handles randomly-ordered orbit data" do
