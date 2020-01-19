@@ -8,7 +8,7 @@ module Space
         body = Space::Body.new(k)
         h.store(k, body)
       }
-      data.reduce(bodies) { |bodies, (orbited_id, orbiting_id)|
+      new data.reduce(bodies) { |bodies, (orbited_id, orbiting_id)|
         orbited_body = bodies[orbited_id]
         orbiting_body = bodies[orbiting_id]
         orbiting_body.body = orbited_body

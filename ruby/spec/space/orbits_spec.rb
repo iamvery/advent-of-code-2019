@@ -16,8 +16,7 @@ RSpec.describe Space::Orbits do
       K)L
     DATA
 
-    bodies = described_class.process(orbit_data)
-    orbits = described_class.new(bodies)
+    orbits = described_class.process(orbit_data)
 
     expect(orbits.indirect_orbits).to eq(42)
   end
@@ -29,12 +28,12 @@ RSpec.describe Space::Orbits do
       COM)A
     DATA
 
-    bodies = described_class.process(orbit_data)
+    orbits = described_class.process(orbit_data)
     com = Space::Body.new("COM")
     a = Space::Body.new("A", com)
     b = Space::Body.new("B", a)
     c = Space::Body.new("C", b)
-    expect(bodies).to eq(
+    expect(orbits.bodies).to eq(
       "COM" => com,
       "A" => a,
       "B" => b,
