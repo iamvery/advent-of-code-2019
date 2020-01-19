@@ -19,5 +19,16 @@ module Space
     def indirect_orbits
       bodies.values.map(&:indirect_orbits).reduce(&:+)
     end
+
+    def minimum_transfers(first_id, second_id)
+      first = bodies.fetch("YOU")
+      second = bodies.fetch("SAN")
+      common = first.bodies.find { |a|
+        second.bodies.find { |b| b.id == a.id }
+      }
+      first_distance = first.indirect_orbits - common.indirect_orbits - 1
+      second_distance = second.indirect_orbits - common.indirect_orbits - 1
+      first_distance + second_distance
+    end
   end
 end

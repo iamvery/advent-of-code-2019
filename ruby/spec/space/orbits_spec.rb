@@ -40,4 +40,27 @@ RSpec.describe Space::Orbits do
       "C" => c,
     )
   end
+
+  it "calculates orbit transfers" do
+    orbit_data = <<~DATA
+      COM)B
+      B)C
+      C)D
+      D)E
+      E)F
+      B)G
+      G)H
+      D)I
+      E)J
+      J)K
+      K)L
+      K)YOU
+      I)SAN
+    DATA
+
+    orbits = described_class.process(orbit_data)
+    transfers = orbits.minimum_transfers("YOU", "SAN")
+
+    expect(transfers).to eq(4)
+  end
 end
