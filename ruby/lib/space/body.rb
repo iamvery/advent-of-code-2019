@@ -1,11 +1,7 @@
 module Space
   Body = Struct.new(:id, :body) do
     def indirect_orbits
-      if body
-        1 + body.indirect_orbits
-      else
-        0
-      end
+      bodies.reduce(0) { |s| s+1 }
     end
 
     class Bodies
