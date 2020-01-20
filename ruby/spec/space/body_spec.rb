@@ -17,6 +17,6 @@ RSpec.describe Space::Body do
     b = described_class.new("B", a)
     c = described_class.new("C", b)
 
-    expect(c.bodies.to_a).to eq([b,a])
+    expect(c.to_a).to eq([c,b,a])
   end
 end

@@ -4,6 +4,15 @@ module Space
       bodies.reduce(0) { |s| s+1 }
     end
 
+    def to_a
+      reduce([]) { |a,b| a << b; a }
+    end
+
+    def each(&b)
+      yield(self)
+      body.each(&b) if body
+    end
+
     class Bodies
       include Enumerable
       attr_reader :body
