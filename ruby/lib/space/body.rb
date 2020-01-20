@@ -1,7 +1,7 @@
 module Space
   Body = Struct.new(:id, :body) do
     def indirect_orbits
-      reduce(0) { |s| s+1 } - 1
+      count - 1
     end
 
     def to_a
