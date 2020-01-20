@@ -23,8 +23,8 @@ module Space
     def minimum_transfers(first_id, second_id)
       first = bodies.fetch("YOU")
       second = bodies.fetch("SAN")
-      common = first.bodies.find { |a|
-        second.bodies.find { |b| b.id == a.id }
+      common = first.find { |a|
+        second.find { |b| b.id == a.id }
       }
       first_distance = first.indirect_orbits - common.indirect_orbits - 1
       second_distance = second.indirect_orbits - common.indirect_orbits - 1
