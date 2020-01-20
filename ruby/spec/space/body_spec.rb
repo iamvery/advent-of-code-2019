@@ -11,12 +11,4 @@ RSpec.describe Space::Body do
     )
     expect(body.indirect_orbits).to eq(2)
   end
-
-  it "enumerates orbited bodies" do
-    a = described_class.new("A")
-    b = described_class.new("B", a)
-    c = described_class.new("C", b)
-
-    expect(c.to_a).to eq([c,b,a])
-  end
 end
