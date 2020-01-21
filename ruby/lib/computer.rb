@@ -10,7 +10,7 @@ class Computer
 
   attr_reader :memory, :position
 
-  def initialize(memory, input = $stdin, output = $stdout)
+  def initialize(memory, input, output)
     @memory = memory
     @position = 0
     @input = input
