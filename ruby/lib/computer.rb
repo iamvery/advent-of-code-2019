@@ -2,9 +2,9 @@ require "computer/parameters"
 require "computer/operations"
 
 class Computer
-  def self.call(program)
+  def self.call(program, input = $stdin, output = $stdout)
     memory = program.split(",").map { |i| Integer(i) }
-    result = new(memory).run
+    result = new(memory, input, output).run
     result.join(",")
   end
 
