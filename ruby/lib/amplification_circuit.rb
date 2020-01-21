@@ -16,7 +16,7 @@ module AmplificationCircuit
       input.puts(input_signal)
       input.rewind
       output = StringIO.new
-      Computer.new(program_memory.dup, 0, input, output).run
+      Computer.new(program_memory.dup, input, output).run
       Integer(output.string)
     end
   end
