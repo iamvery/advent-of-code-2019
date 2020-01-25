@@ -22,11 +22,11 @@ module AmplificationCircuit
     fifth_write.puts phase_setting_sequence[4]
 
     first_write.puts 0
-    Computer.call(program.dup, first_read, second_write)
-    Computer.call(program.dup, second_read, third_write)
-    Computer.call(program.dup, third_read, fourth_write)
-    Computer.call(program.dup, fourth_read, fifth_write)
-    Computer.call(program.dup, fifth_read, first_write)
+    Thread.new { Computer.call(program.dup, first_read, second_write) }
+    Thread.new { Computer.call(program.dup, second_read, third_write) }
+    Thread.new { Computer.call(program.dup, third_read, fourth_write) }
+    Thread.new { Computer.call(program.dup, fourth_read, fifth_write) }
+    Thread.new { Computer.call(program.dup, fifth_read, first_write) }.join
 
     Integer(first_read.gets)
   end
