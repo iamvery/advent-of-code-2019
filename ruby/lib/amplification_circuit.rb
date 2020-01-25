@@ -2,8 +2,8 @@ require "stringio"
 require "computer"
 
 module AmplificationCircuit
-  def self.max(program)
-    (0..4).to_a
+  def self.max(program, phase_setting_range: 0..4)
+    phase_setting_range.to_a
       .permutation(5)
       .map { |sequence| [sequence, call(program, sequence)] }
       .max { |(_,a),(_,b)| a <=> b }
