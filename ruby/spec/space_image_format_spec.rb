@@ -6,6 +6,14 @@ SpaceImageFormat = Struct.new(:layers) do
     layers = pixels.each_slice(width * height)
     new(layers.to_a)
   end
+
+  def checksum
+    counts = layers.map { |layer|
+      layer.each_with_object(Hash.new(0)) { |p,t| t[p] += 1 }
+    }
+    count = counts.min { |c| c[0] }
+    count[1] * count[2]
+  end
 end
 
 RSpec.describe SpaceImageFormat do
@@ -21,6 +29,13 @@ RSpec.describe SpaceImageFormat do
         7,8,9,
         0,1,2,
       ])
+    end
+  end
+
+  describe "#checksum" do
+    it "multiplies the number 1s by the number of 2s in the layer with the fewest 0s" do
+      image = described_class.parse("111222012234", width: 3, height: 2)
+      expect(image.checksum).to eq(9)
     end
   end
 end
