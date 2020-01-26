@@ -22,4 +22,14 @@ RSpec.describe Space::ImageFormat do
       expect(image.checksum).to eq(9)
     end
   end
+
+  describe "#render" do
+    it "returns the rendered layer pixels" do
+      image = described_class.parse("0222112222120000", width: 2, height: 2)
+      expect(image.render).to eq([
+        0,1,
+        1,0
+      ])
+    end
+  end
 end

@@ -1,5 +1,7 @@
 module Space
-  ImageFormat = Struct.new(:layers) do
+  class ImageFormat < Struct.new(:layers)
+    TRANSPARENT = 2
+
     def self.parse(data, width:, height:)
       pixels = data.split("").map(&method(:Integer))
       layers = pixels.each_slice(width * height)
@@ -12,6 +14,12 @@ module Space
       }
       count = counts.min { |a,b| a[0] <=> b[0] }
       count[1] * count[2]
+    end
+
+    def render
+      layers.reduce(&:zip).map(&:flatten).map { |pixels|
+        pixels.find { |pixel| pixel != TRANSPARENT }
+      }
     end
   end
 end
