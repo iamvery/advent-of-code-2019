@@ -18,7 +18,7 @@ RSpec.describe SpaceImageFormat do
 
   describe "#checksum" do
     it "multiplies the number 1s by the number of 2s in the layer with the fewest 0s" do
-      image = described_class.parse("111222012234", width: 3, height: 2)
+      image = described_class.parse("012234111222", width: 3, height: 2)
       expect(image.checksum).to eq(9)
     end
   end

@@ -9,7 +9,7 @@ SpaceImageFormat = Struct.new(:layers) do
     counts = layers.map { |layer|
       layer.each_with_object(Hash.new(0)) { |p,t| t[p] += 1 }
     }
-    count = counts.min { |c| c[0] }
+    count = counts.min { |a,b| a[0] <=> b[0] }
     count[1] * count[2]
   end
 end
