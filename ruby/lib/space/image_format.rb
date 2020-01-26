@@ -1,5 +1,7 @@
 module Space
   class ImageFormat < Struct.new(:layers)
+    BLACK = 0
+    WHITE = 1
     TRANSPARENT = 2
 
     def self.parse(data, width:, height:)
