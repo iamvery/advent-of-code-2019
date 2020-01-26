@@ -1,6 +1,6 @@
-require "space_image_format"
+require "space/image_format"
 
-RSpec.describe SpaceImageFormat do
+RSpec.describe Space::ImageFormat do
   describe ".parse" do
     it "parses image data into layers" do
       image = described_class.parse("123456789012", width: 3, height: 2)
