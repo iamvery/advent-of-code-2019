@@ -11,10 +11,11 @@ class Computer
   attr_reader :memory, :position
 
   def initialize(memory, input, output)
-    @memory = memory
+    @memory = memory + Array.new(1024, 0)
     @position = 0
     @input = input
     @output = output
+    @relative_base = 0
   end
 
   def run
