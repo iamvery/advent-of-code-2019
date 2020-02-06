@@ -14,6 +14,33 @@ RSpec.describe Computer do
     output = StringIO.new
     described_class.new([3,0,4,0,99], input, output).run
     expect(output.string).to eq("123\n")
+
+    expect {
+      described_class.("109,1,204,-1,1001,100,1,100,1008,100,16,101,1006,101,0,99")
+    }.to output(<<~OUTPUT).to_stdout
+      109
+      1
+      204
+      -1
+      1001
+      100
+      1
+      100
+      1008
+      100
+      16
+      101
+      1006
+      101
+      0
+      99
+    OUTPUT
+
+    expect { described_class.call("1102,34915192,34915192,7,4,7,99,0") }
+      .to output(/^.{16}$/).to_stdout
+
+    expect { described_class.call("104,1125899906842624,99") }
+      .to output("1125899906842624\n").to_stdout
   end
 
   it "runs conditional logic" do

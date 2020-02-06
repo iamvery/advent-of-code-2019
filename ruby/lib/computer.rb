@@ -60,6 +60,10 @@ class Computer
         .new(left, right, output)
         .call(memory) { |l, r| l == r }
       @position += 4
+    when 9
+      offset, = get_parameters(count: 1)
+      @relative_base += offset.read(memory)
+      @position += 2
     when 99
       return memory
     else
@@ -82,6 +86,7 @@ class Computer
     parameter_memory.zip(parameter_modes).map { |(mem, mode)|
       case mode
       when 1 then Params::Immediate(mem)
+      when 2 then Params::Positional(@relative_base + mem)
       else
         Params::Positional(mem)
       end
