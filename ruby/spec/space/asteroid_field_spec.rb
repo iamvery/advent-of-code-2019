@@ -74,4 +74,35 @@ RSpec.describe Space::AsteroidField do
     expect(point).to eq(Point.new(6,3))
     expect(total).to eq(41)
   end
+
+  it "works with fourth example" do
+    pending "total is wrong for some reason..."
+    field = described_class.parse <<~DATA
+      .#..##.###...#######
+      ##.############..##.
+      .#.######.########.#
+      .###.#######.####.#.
+      #####.##.#.##.###.##
+      ..#####..#.#########
+      ####################
+      #.####....###.#.#.##
+      ##.#################
+      #####.##.###..####..
+      ..######..##.#######
+      ####.##.####...##..#
+      .#####..#.######.###
+      ##...#.##########...
+      #.##########.#######
+      .####.#.###.###.#.##
+      ....##.##.###..#####
+      .#.#.###########.###
+      #.#.#.#####.####.###
+      ###.##.####.##.#..##
+    DATA
+
+    point, total = field.ideal
+
+    expect(point).to eq(Point.new(11,13))
+    expect(total).to eq(210)
+  end
 end
