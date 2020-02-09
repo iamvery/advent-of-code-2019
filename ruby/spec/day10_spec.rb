@@ -1,5 +1,17 @@
 require "spec_helper"
+
 require "point"
+module Space
+  AsteroidField = Struct.new(:points) do
+    def self.parse(data)
+      new data.split.flat_map.with_index { |row, y|
+        row.split("").map.with_index { |s, x|
+          Point.new(x,y) if s == "#"
+        }
+      }.compact
+    end
+  end
+end
 
 RSpec.describe "day 10" do
   it "works" do
@@ -11,18 +23,10 @@ RSpec.describe "day 10" do
       ...##
     DATA
 
-    ##
-    # Parse data into points
-    points = data.split.flat_map.with_index { |row, y|
-      row.split("").map.with_index { |s, x|
-        Point.new(x,y) if s == "#"
-      }
-    }.compact
-    #
-    ##
+    field = Space::AsteroidField.parse(data)
 
-    ideal_point = points.map { |point|
-      other_points = points - [point]
+    ideal_point = field.points.map { |point|
+      other_points = field.points - [point]
       total = other_points
         # gather points into groups with the same slope (on the same line) relative to the current point
         .group_by { |other| slope(point, other) }
