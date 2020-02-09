@@ -1,6 +1,8 @@
 require "point"
 
 module Space
+  Asteroid = Struct.new(:point)
+
   AsteroidField = Struct.new(:points) do
     def self.parse(data)
       new data.split.flat_map.with_index { |row, y|
@@ -10,24 +12,31 @@ module Space
       }.compact
     end
 
+    attr_reader :asteroids
+
+    def initialize(points)
+      super
+      @asteroids = points.map { |p| Asteroid.new(p) }
+    end
+
     def ideal
-      points.map { |point|
-        other_points = points - [point]
-        total = other_points
+      asteroids.map { |asteroid|
+        other_asteroids = asteroids - [asteroid]
+        total = other_asteroids
           # gather points into groups with the same slope (on the same line) relative to the current point
-          .group_by { |other| slope(point, other) }
+          .group_by { |other| slope(asteroid.point, other.point) }
           # count the number of "visible" points on each line
           .map { |_slope, points_on_line|
             # For any slope, there is at most 2 visible points
-            near_points = points_on_line.sort_by { |p| distance(point, p) }.take(2)
+            near_points = points_on_line.sort_by { |p| distance(asteroid.point, p.point) }.take(2)
             next 1 unless near_points.length > 1
             a,b = near_points
             # Make sure that the two nearest points aren't on the "same side" and blocking one another
-            next 1 if between(point, a, b)
-            next 1 if between(point, b, a)
+            next 1 if between(asteroid.point, a.point, b.point)
+            next 1 if between(asteroid.point, b.point, a.point)
             next 2
         }.sum
-        [point, total]
+        [asteroid.point, total]
       # sort such that the points with the highest total (most visible points)
       # is last and grab that one, then grab the first element of the result which
       # is the point itself
