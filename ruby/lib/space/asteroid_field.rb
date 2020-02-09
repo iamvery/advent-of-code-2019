@@ -4,11 +4,11 @@ module Space
   Asteroid = Struct.new(:point, :field) do
     def detections
       other_asteroids_by_lines
-        .map { |points_on_line|
+        .map { |asteroids_on_line|
           # For any slope, there is at most 2 visible points
-          near_points = points_on_line.sort_by { |p| distance(point, p.point) }.take(2)
-          next 1 unless near_points.length > 1
-          a,b = near_points
+          nearby = asteroids_on_line.sort_by { |a| distance(point, a.point) }.take(2)
+          next 1 unless nearby.length > 1
+          a,b = nearby
           # Make sure that the two nearest points aren't on the "same side" and blocking one another
           next 1 if between(point, a.point, b.point)
           next 1 if between(point, b.point, a.point)
