@@ -25,7 +25,7 @@ RSpec.describe "day 10" do
 
     field = Space::AsteroidField.parse(data)
 
-    ideal_point = field.points.map { |point|
+    point, total = field.points.map { |point|
       other_points = field.points - [point]
       total = other_points
         # gather points into groups with the same slope (on the same line) relative to the current point
@@ -45,9 +45,10 @@ RSpec.describe "day 10" do
     # sort such that the points with the highest total (most visible points)
     # is last and grab that one, then grab the first element of the result which
     # is the point itself
-    }.sort_by(&:last).last.first
+    }.sort_by(&:last).last
 
-    expect(ideal_point).to eq(Point.new(3,4))
+    expect(point).to eq(Point.new(3,4))
+    expect(total).to eq(8)
   end
 
   def slope(p1, p2)
