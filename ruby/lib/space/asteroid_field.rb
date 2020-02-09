@@ -1,6 +1,5 @@
-require "spec_helper"
-
 require "point"
+
 module Space
   AsteroidField = Struct.new(:points) do
     def self.parse(data)
@@ -51,23 +50,5 @@ module Space
       # whole units.
       (distance(a,b) + distance(b,c)).round(10) == distance(a,c).round(10)
     end
-  end
-end
-
-RSpec.describe "day 10" do
-  it "works" do
-    data = <<~DATA
-      .#..#
-      .....
-      #####
-      ....#
-      ...##
-    DATA
-
-    field = Space::AsteroidField.parse(data)
-    point, total = field.ideal
-
-    expect(point).to eq(Point.new(3,4))
-    expect(total).to eq(8)
   end
 end
