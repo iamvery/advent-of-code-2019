@@ -3,7 +3,7 @@ require "point"
 module Space
   Asteroid = Struct.new(:point)
 
-  AsteroidField = Struct.new(:points) do
+  class AsteroidField
     def self.parse(data)
       new data.split.flat_map.with_index { |row, y|
         row.split("").map.with_index { |s, x|
@@ -15,7 +15,6 @@ module Space
     attr_reader :asteroids
 
     def initialize(points)
-      super
       @asteroids = points.map { |p| Asteroid.new(p) }
     end
 
