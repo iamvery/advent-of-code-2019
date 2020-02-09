@@ -3,20 +3,43 @@ require "point"
 module Space
   Asteroid = Struct.new(:point, :field) do
     def detections
-      other_asteroids_by_lines
-        .map { |asteroids_on_line|
-          # For any slope, there is at most 2 visible points
-          nearby = asteroids_on_line.sort_by { |a| distance(point, a.point) }.take(2)
-          next 1 unless nearby.length > 1
-          a,b = nearby
-          # Make sure that the two nearest points aren't on the "same side" and blocking one another
-          next 1 if between(point, a.point, b.point)
-          next 1 if between(point, b.point, a.point)
-          next 2
-      }.sum
+      lines
+        .map { |l| l.visible_from(self) }
+        .map(&:length)
+        .sum
     end
 
     private
+
+    Line = Struct.new(:asteroids) do
+      def visible_from(asteroid)
+        # For any slope, there is at most 2 visible points
+        nearby = asteroids.sort_by { |a| distance(asteroid, a) }.take(2)
+        return nearby unless nearby.length > 1
+        a,b = nearby
+        # Make sure that the two nearest points aren't on the "same side" and blocking one another
+        return [a] if between(asteroid, a, b)
+        return [b] if between(asteroid, b, a)
+        return nearby
+      end
+
+      private
+
+      def distance(a, b)
+        Math.sqrt((a.point.x - b.point.x)**2 + (a.point.y - b.point.y)**2)
+      end
+
+      def between(a, b, c)
+        # Floating poing math becomes an issue, but precision 10 is more than
+        # adequate for this test since the grid these points is layed out on is in
+        # whole units.
+        (distance(a,b) + distance(b,c)).round(10) == distance(a,c).round(10)
+      end
+    end
+
+    def lines
+      other_asteroids_by_lines.map(&Line.method(:new))
+    end
 
     def other_asteroids_by_lines
       other_asteroids
@@ -30,17 +53,6 @@ module Space
 
     def slope(p1, p2)
       (p2.y - p1.y).to_f / (p2.x - p1.x).to_f
-    end
-
-    def distance(p1, p2)
-      Math.sqrt((p1.x - p2.x)**2 + (p1.y - p2.y)**2)
-    end
-
-    def between(a, b, c)
-      # Floating poing math becomes an issue, but precision 10 is more than
-      # adequate for this test since the grid these points is layed out on is in
-      # whole units.
-      (distance(a,b) + distance(b,c)).round(10) == distance(a,c).round(10)
     end
   end
 
