@@ -5,7 +5,6 @@ module Space
     def detections
       lines
         .map { |l| l.visible_from(self) }
-        .map(&:length)
         .sum
     end
 
@@ -15,12 +14,12 @@ module Space
       def visible_from(asteroid)
         # For any slope, there is at most 2 visible points
         nearby = asteroids.sort_by { |a| distance(asteroid, a) }.take(2)
-        return nearby unless nearby.length > 1
+        return 1 unless nearby.length > 1
         a,b = nearby
         # Make sure that the two nearest points aren't on the "same side" and blocking one another
-        return [a] if between(asteroid, a, b)
-        return [b] if between(asteroid, b, a)
-        return nearby
+        return 1 if between(asteroid, a, b)
+        return 1 if between(asteroid, b, a)
+        return 2
       end
 
       private
