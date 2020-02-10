@@ -14,12 +14,12 @@ module Space
       def visible_from(asteroid)
         # For any slope, there is at most 2 visible points
         nearby = asteroids.sort_by { |a| distance(asteroid, a) }.take(2)
-        return 1 unless nearby.length > 1
         a,b = nearby
-        # Make sure that the two nearest points aren't on the "same side" and blocking one another
-        return 1 if between(asteroid, a, b)
-        return 1 if between(asteroid, b, a)
-        return 2
+        if nearby.length == 1 || between(a,asteroid,b)
+          return nearby.length
+        else
+          1
+        end
       end
 
       private
