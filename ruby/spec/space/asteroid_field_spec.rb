@@ -76,7 +76,6 @@ RSpec.describe Space::AsteroidField do
   end
 
   it "works with fourth example" do
-    pending "total is wrong for some reason..."
     field = described_class.parse <<~DATA
       .#..##.###...#######
       ##.############..##.

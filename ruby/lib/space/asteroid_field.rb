@@ -12,14 +12,9 @@ module Space
 
     Line = Struct.new(:asteroids) do
       def visible_from(asteroid)
-        # For any slope, there is at most 2 visible points
-        nearby = asteroids.sort_by { |a| distance(asteroid, a) }.take(2)
-        a,b = nearby
-        if nearby.length == 1 || between(a,asteroid,b)
-          return nearby.length
-        else
-          1
-        end
+        asteroids.partition { |a|
+          (asteroid.point.x - a.point.x).positive?
+        }.count { |p| !p.empty? }
       end
 
       private
