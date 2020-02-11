@@ -3,24 +3,14 @@ require "point"
 module Space
   Asteroid = Struct.new(:point, :field) do
     def detections
-      lines
-        .map { |l| l.visible_from(self) }
-        .sum
+      other_asteroids_by_lines.values.map { |asteroids|
+        asteroids
+          .partition { |a| (point.x - a.point.x).positive? }
+          .count { |p| !p.empty? }
+      }.sum
     end
 
     private
-
-    Line = Struct.new(:asteroids) do
-      def visible_from(asteroid)
-        asteroids
-          .partition { |a| (asteroid.point.x - a.point.x).positive? }
-          .count { |p| !p.empty? }
-      end
-    end
-
-    def lines
-      other_asteroids_by_lines.values.map(&Line.method(:new))
-    end
 
     def other_asteroids_by_lines
       other_asteroids.group_by { |other| slope(point, other.point) }
