@@ -16,19 +16,6 @@ module Space
           (asteroid.point.x - a.point.x).positive?
         }.count { |p| !p.empty? }
       end
-
-      private
-
-      def distance(a, b)
-        Math.sqrt((a.point.x - b.point.x)**2 + (a.point.y - b.point.y)**2)
-      end
-
-      def between(a, b, c)
-        # Floating poing math becomes an issue, but precision 10 is more than
-        # adequate for this test since the grid these points is layed out on is in
-        # whole units.
-        (distance(a,b) + distance(b,c)).round(10) == distance(a,c).round(10)
-      end
     end
 
     def lines
