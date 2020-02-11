@@ -32,13 +32,12 @@ module Space
     end
 
     def lines
-      other_asteroids_by_lines.map(&Line.method(:new))
+      other_asteroids_by_lines.values.map(&Line.method(:new))
     end
 
     def other_asteroids_by_lines
       other_asteroids
         .group_by { |other| slope(point, other.point) }
-        .values
     end
 
     def other_asteroids
