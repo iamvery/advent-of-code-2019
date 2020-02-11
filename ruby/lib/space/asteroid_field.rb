@@ -12,9 +12,9 @@ module Space
 
     Line = Struct.new(:asteroids) do
       def visible_from(asteroid)
-        asteroids.partition { |a|
-          (asteroid.point.x - a.point.x).positive?
-        }.count { |p| !p.empty? }
+        asteroids
+          .partition { |a| (asteroid.point.x - a.point.x).positive? }
+          .count { |p| !p.empty? }
       end
     end
 
@@ -23,8 +23,7 @@ module Space
     end
 
     def other_asteroids_by_lines
-      other_asteroids
-        .group_by { |other| slope(point, other.point) }
+      other_asteroids.group_by { |other| slope(point, other.point) }
     end
 
     def other_asteroids
