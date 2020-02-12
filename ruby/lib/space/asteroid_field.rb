@@ -2,6 +2,15 @@ require "point"
 
 module Space
   Asteroid = Struct.new(:point, :field) do
+    def vaporize
+      angles = other_asteroids_by_angle.keys.sort
+      others = other_asteroids_by_angle.dup
+      angles.cycle.lazy
+        .take_while { !others.values.flatten.empty? }
+        .map { |angle| others[angle].shift }
+        .to_a.compact
+    end
+
     def detections
       other_asteroids_by_angle.length
     end
@@ -13,7 +22,7 @@ module Space
     end
 
     def other_asteroids
-      @other_asteroids ||= field.asteroids - [self]
+      @other_asteroids ||= (field.asteroids - [self]).sort_by { |a| distance(point, a.point) }
     end
 
     def angle(a, b)
@@ -32,6 +41,10 @@ module Space
       #   to be clockwise. Second is shifts the results from -PI:PI to
       #   0:2PI which is handy in the cycle used for vaporizing asteroids.
       Math::PI - Math.atan2(b.x - a.x, b.y - a.y)
+    end
+
+    def distance(a, b)
+      Math.sqrt((a.x - b.x)**2 + (a.y - b.y)**2)
     end
   end
 
@@ -52,6 +65,10 @@ module Space
 
     def ideal
       [ideal_asteroid.point, ideal_asteroid.detections]
+    end
+
+    def vaporize
+      ideal_asteroid.vaporize
     end
 
     private
