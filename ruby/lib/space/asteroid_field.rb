@@ -51,8 +51,13 @@ module Space
     end
 
     def ideal
-      asteroid = asteroids.sort_by(&:detections).last
-      [asteroid.point, asteroid.detections]
+      [ideal_asteroid.point, ideal_asteroid.detections]
+    end
+
+    private
+
+    def ideal_asteroid
+      @ideal_asteroid ||= asteroids.sort_by(&:detections).last
     end
   end
 end
