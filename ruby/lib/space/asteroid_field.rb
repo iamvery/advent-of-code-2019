@@ -9,11 +9,11 @@ module Space
     private
 
     def other_asteroids_by_angle
-      other_asteroids.group_by { |a| angle(point, a.point) }
+      @other_asteroids_by_angle||= other_asteroids.group_by { |a| angle(point, a.point) }
     end
 
     def other_asteroids
-      field.asteroids - [self]
+      @other_asteroids ||= field.asteroids - [self]
     end
 
     def angle(a, b)
