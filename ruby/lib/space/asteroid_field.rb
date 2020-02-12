@@ -3,25 +3,35 @@ require "point"
 module Space
   Asteroid = Struct.new(:point, :field) do
     def detections
-      other_asteroids_by_lines.values.map { |asteroids|
-        asteroids
-          .partition { |a| (point.x - a.point.x).positive? }
-          .count { |p| !p.empty? }
-      }.sum
+      other_asteroids_by_angle.length
     end
 
     private
 
-    def other_asteroids_by_lines
-      other_asteroids.group_by { |other| slope(point, other.point) }
+    def other_asteroids_by_angle
+      other_asteroids.group_by { |a| angle(point, a.point) }
     end
 
     def other_asteroids
       field.asteroids - [self]
     end
 
-    def slope(p1, p2)
-      (p2.y - p1.y).to_f / (p2.x - p1.x).to_f
+    def angle(a, b)
+      # Since the asteroid system is not laid out like the traditional
+      # coordinate system where theta = 0 along the x-axis and theta is
+      # positive as you rotate counter-clockwise from there. For
+      # asteroids, theta is zero along the y-axis and rotates clockwise.
+      # To accomodate for this difference, a couple adjustments must be
+      # made:
+      #
+      # - The xs and ys are transposed on the all to Math.atan2. This
+      #   "rotates" the coordinate system 90 degrees effectively moving
+      #   theta = 0 to the y-axis.
+      # - The result is deducted from from PI. This has two nice effects.
+      #   First, and most importantly, it reverses the rotation of theta
+      #   to be clockwise. Second is shifts the results from -PI:PI to
+      #   0:2PI which is handy in the cycle used for vaporizing asteroids.
+      Math::PI - Math.atan2(b.x - a.x, b.y - a.y)
     end
   end
 
