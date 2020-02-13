@@ -3,7 +3,8 @@ require "point"
 module Space
   Asteroid = Struct.new(:point, :field) do
     def vaporize
-      angles = other_asteroids_by_angle.keys.sort
+      # Reverse the sorted list of angles such that they cycle clockwise.
+      angles = other_asteroids_by_angle.keys.sort.reverse
       others = other_asteroids_by_angle.dup
       angles.cycle.lazy
         .take_while { !others.values.flatten.empty? }
@@ -40,7 +41,7 @@ module Space
       #   First, and most importantly, it reverses the rotation of theta
       #   to be clockwise. Second is shifts the results from -PI:PI to
       #   0:2PI which is handy in the cycle used for vaporizing asteroids.
-      Math::PI - Math.atan2(b.x - a.x, b.y - a.y)
+      Math.atan2(b.x - a.x, b.y - a.y)
     end
 
     def distance(a, b)
