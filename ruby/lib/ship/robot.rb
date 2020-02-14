@@ -13,7 +13,6 @@ class Ship::Robot
   end
 
   def run
-    count = 0
     loop do
       break if brain.halted?
 
@@ -30,10 +29,9 @@ class Ship::Robot
       end
 
       @position = direction.move(position)
-      count+=1
     end
 
-    count
+    ship.panels.count
   end
 
   private
