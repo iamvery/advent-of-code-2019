@@ -15,10 +15,12 @@ class Ship::Robot
   def run
     count = 0
     loop do
+      break if brain.halted?
+
       panel = ship.get_panel(position)
 
       brain.write(panel.color)
-      panel.color = brain.read || break
+      panel.color = brain.read
 
       case turn = brain.read
       when 0 then @direction = direction.left
