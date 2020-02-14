@@ -17,4 +17,16 @@ RSpec.describe Ship::Robot::Brain do
       expect(value).to eq(123)
     end
   end
+
+  describe "#halted?" do
+    it "returns false when brain is running" do
+      brain = described_class.new("3,0,99")
+      expect(brain.halted?).to be(false)
+    end
+
+    it "returns true when brain is not accepting anymore inputs or producing outputs" do
+      brain = described_class.new("99")
+      expect(brain.halted?).to be(true)
+    end
+  end
 end
