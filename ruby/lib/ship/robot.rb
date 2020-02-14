@@ -10,6 +10,8 @@ class Ship::Robot
     @brain = brain
     @position = Point.new(0,0)
     @direction = Direction::Up
+
+    ship.get_panel(position).color = Ship::Panel::WHITE
   end
 
   def run
