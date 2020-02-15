@@ -49,53 +49,54 @@ module Space
     end
 
     def step(count)
+      step_x(count)
+      step_y(count)
+      step_z(count)
+    end
+
+    def step_x(count)
       count.times do
         moons.combination(2) do |a,b|
-          apply_gravity(a,b)
+          x_offset = a.position.x <=> b.position.x
+          a.velocity.x += -x_offset
+          b.velocity.x +=  x_offset
         end
-        moons.each(&method(:apply_velocity))
+
+        moons.each do |moon|
+          moon.position.x += moon.velocity.x
+        end
       end
     end
 
+    def step_y(count)
+      count.times do
+        moons.combination(2) do |a,b|
+          y_offset = a.position.y <=> b.position.y
+          a.velocity.y += -y_offset
+          b.velocity.y +=  y_offset
+        end
+
+        moons.each do |moon|
+          moon.position.y += moon.velocity.y
+        end
+      end
+    end
+
+    def step_z(count)
+      count.times do
+        moons.combination(2) do |a,b|
+          z_offset = a.position.z <=> b.position.z
+          a.velocity.z += -z_offset
+          b.velocity.z +=  z_offset
+        end
+
+        moons.each do |moon|
+          moon.position.z += moon.velocity.z
+        end
+      end
+    end
     def total_energy
       moons.map(&:total_energy).sum
-    end
-
-    private
-
-    def apply_gravity(a,b)
-      case a.position.x <=> b.position.x
-      when -1
-        a.velocity.x += 1
-        b.velocity.x -= 1
-      when 1
-        a.velocity.x -= 1
-        b.velocity.x += 1
-      end
-
-      case a.position.y <=> b.position.y
-      when -1
-        a.velocity.y += 1
-        b.velocity.y -= 1
-      when 1
-        a.velocity.y -= 1
-        b.velocity.y += 1
-      end
-
-      case a.position.z <=> b.position.z
-      when -1
-        a.velocity.z += 1
-        b.velocity.z -= 1
-      when 1
-        a.velocity.z -= 1
-        b.velocity.z += 1
-      end
-    end
-
-    def apply_velocity(moon)
-      moon.position.x += moon.velocity.x
-      moon.position.y += moon.velocity.y
-      moon.position.z += moon.velocity.z
     end
   end
 end
