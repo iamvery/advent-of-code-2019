@@ -68,9 +68,9 @@ module Space
     def step_x(count)
       count.times do
         moons.combination(2) do |a,b|
-          x_offset = a.position.x <=> b.position.x
-          a.velocity.x += -x_offset
-          b.velocity.x +=  x_offset
+          offset = a.position.x <=> b.position.x
+          a.velocity.x += -offset
+          b.velocity.x +=  offset
         end
 
         moons.each do |moon|
