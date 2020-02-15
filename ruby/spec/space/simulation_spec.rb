@@ -13,7 +13,7 @@ RSpec.describe Space::Simulation do
 
       simulation = described_class.parse(data)
 
-      expect(simulation.moons).to match_array([
+      expect(simulation.moons).to eq([
         described_class::Moon.new(Point.new(-1,0,2), Point.new(0,0,0)),
         described_class::Moon.new(Point.new(2,-10,-7), Point.new(0,0,0)),
         described_class::Moon.new(Point.new(4,-8,8), Point.new(0,0,0)),
