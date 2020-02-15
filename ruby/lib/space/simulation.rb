@@ -59,13 +59,8 @@ module Space
 
     def step_axis(axis, count)
       count.times do
-        moons.combination(2) do |a,b|
-          apply_gravity(axis, a, b)
-        end
-
-        moons.each do |moon|
-          apply_velocity(axis, moon)
-        end
+        moons.combination(2, &method(:apply_gravity).curry.(axis))
+        moons.each(&method(:apply_velocity).curry.(axis))
       end
     end
 
@@ -75,7 +70,7 @@ module Space
 
     private
 
-    def apply_gravity(axis, a, b)
+    def apply_gravity(axis, (a, b))
       offset = a.position[axis] <=> b.position[axis]
       a.velocity[axis] += -offset
       b.velocity[axis] +=  offset
