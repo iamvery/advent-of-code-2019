@@ -1,4 +1,4 @@
-Point = Struct.new(:x, :y) do
+Point = Struct.new(:x, :y, :z) do
   def up
     Point.new(x, y+1)
   end
