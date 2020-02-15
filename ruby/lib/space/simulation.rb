@@ -40,7 +40,7 @@ module Space
           count += simulation.step_axis(axis, 1)
           break count if initial.moons == simulation.moons
         end
-      }.reduce(1, :lcm)
+      }.reduce(:lcm)
     end
 
     attr_reader :moons
