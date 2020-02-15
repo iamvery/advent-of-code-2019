@@ -33,11 +33,22 @@ module Space
     def self.detect_repetition(data)
       initial = parse(data)
       simulation = parse(data)
-      count = 0
+      x_count = 0
       loop do
-        count += simulation.step(1)
-        break count if initial.moons == simulation.moons
+        x_count += simulation.step_x(1)
+        break if initial.moons == simulation.moons
       end
+      y_count = 0
+      loop do
+        y_count += simulation.step_y(1)
+        break if initial.moons == simulation.moons
+      end
+      z_count = 0
+      loop do
+        z_count += simulation.step_z(1)
+        break if initial.moons == simulation.moons
+      end
+      [x_count, y_count, z_count].reduce(1, :lcm)
     end
 
     attr_reader :moons
