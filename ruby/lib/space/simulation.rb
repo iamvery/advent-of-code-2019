@@ -5,7 +5,19 @@ module Space
     # https://rubular.com/r/ULUqpWzQjwcEy6
     LINE_EXPR = /<x=(?<x>-?\d+), y=(?<y>-?\d+), z=(?<z>-?\d+)>/
 
-    Moon = Struct.new(:position, :velocity)
+    Moon = Struct.new(:position, :velocity) do
+      def potential_energy
+        position.x.abs + position.y.abs + position.z.abs
+      end
+
+      def kinetic_energy
+        velocity.x.abs + velocity.y.abs + velocity.z.abs
+      end
+
+      def total_energy
+        potential_energy * kinetic_energy
+      end
+    end
 
     def self.parse(data)
       points = data.split("\n").map { |line|
@@ -33,6 +45,10 @@ module Space
         end
         moons.each(&method(:apply_velocity))
       end
+    end
+
+    def total_energy
+      moons.map(&:total_energy).sum
     end
 
     private
