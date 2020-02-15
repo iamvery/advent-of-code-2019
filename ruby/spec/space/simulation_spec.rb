@@ -72,4 +72,18 @@ RSpec.describe Space::Simulation do
       expect(simulation.total_energy).to eq(179)
     end
   end
+
+  describe "history repeating itself" do
+    it "happens after many steps" do
+      data = <<~DATA
+        <x=-1, y=0, z=2>
+        <x=2, y=-10, z=-7>
+        <x=4, y=-8, z=8>
+        <x=3, y=5, z=-1>
+      DATA
+
+      steps = described_class.detect_repetition(data)
+      expect(steps).to eq(2772)
+    end
+  end
 end

@@ -30,6 +30,16 @@ module Space
       new(points)
     end
 
+    def self.detect_repetition(data)
+      initial = parse(data)
+      simulation = parse(data)
+      count = 0
+      loop do
+        count += simulation.step(1)
+        break count if initial.moons == simulation.moons
+      end
+    end
+
     attr_reader :moons
 
     def initialize(points)
