@@ -25,5 +25,51 @@ module Space
         Moon.new(position, Point.new(0,0,0))
       }
     end
+
+    def step(count)
+      count.times do
+        moons.combination(2) do |a,b|
+          apply_gravity(a,b)
+        end
+        moons.each(&method(:apply_velocity))
+      end
+    end
+
+    private
+
+    def apply_gravity(a,b)
+      case a.position.x <=> b.position.x
+      when -1
+        a.velocity.x += 1
+        b.velocity.x -= 1
+      when 1
+        a.velocity.x -= 1
+        b.velocity.x += 1
+      end
+
+      case a.position.y <=> b.position.y
+      when -1
+        a.velocity.y += 1
+        b.velocity.y -= 1
+      when 1
+        a.velocity.y -= 1
+        b.velocity.y += 1
+      end
+
+      case a.position.z <=> b.position.z
+      when -1
+        a.velocity.z += 1
+        b.velocity.z -= 1
+      when 1
+        a.velocity.z -= 1
+        b.velocity.z += 1
+      end
+    end
+
+    def apply_velocity(moon)
+      moon.position.x += moon.velocity.x
+      moon.position.y += moon.velocity.y
+      moon.position.z += moon.velocity.z
+    end
   end
 end
