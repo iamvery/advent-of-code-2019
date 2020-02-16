@@ -10,7 +10,7 @@ module Arcade
       BALL = "•",
     ].freeze
 
-    def initialize(output)
+    def initialize(output = $stdout)
       @output = output
     end
 
