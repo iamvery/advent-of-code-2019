@@ -7,14 +7,28 @@ RSpec.describe Aracde::Cabinet do
       cabinet = described_class.new(program)
 
       expect { cabinet.run }.to output(<<~SCREEN).to_stdout
-       ┌───────┐
-       │       │
-       │       │
-       │ —     │
-       │       │
-       │       │
-       │      •│
-       └───────┘
+       ┌────────────────────────────────────────────┐
+       │                                            │
+       │                                            │
+       │ —                                          │
+       │                                            │
+       │                                            │
+       │      •                                     │
+       │                                            │
+       │                                            │
+       │                                            │
+       │                                            │
+       │                                            │
+       │                                            │
+       │                                            │
+       │                                            │
+       │                                            │
+       │                                            │
+       │                                            │
+       │                                            │
+       │                                            │
+       │                                            │
+       └────────────────────────────────────────────┘
       SCREEN
     end
   end

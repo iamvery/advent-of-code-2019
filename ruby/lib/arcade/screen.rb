@@ -2,6 +2,11 @@
 
 module Arcade
   class Screen
+    RESOLUTION = [
+      WIDTH = 44,
+      HEIGHT = 20,
+    ].freeze
+
     TILES = [
       EMPTY = " ",
       WALL = "║",
@@ -15,16 +20,13 @@ module Arcade
     end
 
     def render(pixels)
-      x_range = 0..pixels.keys.map(&:x).max
-      y_range = 0..pixels.keys.map(&:y).max
-
       output.print("┌")
-      output.print("─" * x_range.count)
+      output.print("─" * WIDTH)
       output.puts("┐")
 
-      y_range.each do |y|
+      HEIGHT.times do |y|
         output.print "│"
-        x_range.each do |x|
+        WIDTH.times do |x|
           tile = pixels.fetch(Point.new(x,y), 0)
           output.print TILES[tile]
         end
@@ -32,9 +34,8 @@ module Arcade
       end
 
       output.print("└")
-      output.print("─" * x_range.count)
+      output.print("─" * WIDTH)
       output.puts("┘")
-
     end
 
     private
