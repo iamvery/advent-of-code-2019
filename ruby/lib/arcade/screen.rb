@@ -17,9 +17,20 @@ module Arcade
 
     def initialize(output = $stdout)
       @output = output
+      @pixels = {}
     end
 
-    def render(pixels)
+    def set(point, tile)
+      pixels.store(point, tile)
+      draw
+    end
+
+    private
+
+    attr_reader :output, :pixels
+
+    def draw
+      output.rewind
       output.print("┌")
       output.print("─" * WIDTH)
       output.puts("┐")
@@ -37,9 +48,5 @@ module Arcade
       output.print("─" * WIDTH)
       output.puts("┘")
     end
-
-    private
-
-    attr_reader :output
   end
 end

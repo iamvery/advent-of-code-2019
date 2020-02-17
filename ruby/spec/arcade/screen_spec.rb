@@ -2,16 +2,13 @@ require "arcade/screen"
 require "point"
 
 RSpec.describe Arcade::Screen do
-  describe "#render" do
-    it "renders pixels to output" do
+  describe "#set" do
+    it "sets the pixel value at the point and draws the screen" do
       output = StringIO.new
       screen = described_class.new(output)
-      data = {
-        Point.new(1,2) => 3,
-        Point.new(6,5) => 4,
-      }
 
-      screen.render(data)
+      screen.set(Point.new(1,2), 3)
+      screen.set(Point.new(6,5), 4)
 
       expect(output.string).to eq <<~DISPLAY
        ┌────────────────────────────────────────────┐
