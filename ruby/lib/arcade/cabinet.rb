@@ -7,6 +7,7 @@ module Aracde
   class Cabinet
     def initialize(program)
       @program = program
+      @screen = Arcade::Screen.new
     end
 
     def run(stats: false)
@@ -22,7 +23,9 @@ module Aracde
         end
       end
     rescue Timeout::Error
-      Arcade::Screen.new.render(pixels)
+      pixels.each do |point, tile|
+        screen.set(point, tile)
+      end
 
       if stats
         puts
@@ -34,6 +37,6 @@ module Aracde
 
     private
 
-    attr_reader :program
+    attr_reader :program, :screen
   end
 end
