@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
+require "curses"
+
 module Arcade
   class Screen
+    include Curses
+
     RESOLUTION = [
       WIDTH = 44,
       HEIGHT = 20,
@@ -15,38 +19,14 @@ module Arcade
       BALL = "•",
     ].freeze
 
-    def initialize(output = $stdout)
-      @output = output
-      @pixels = {}
+    def initialize
+      init_screen
     end
 
     def set(point, tile)
-      pixels.store(point, tile)
-      draw
-    end
-
-    private
-
-    attr_reader :output, :pixels
-
-    def draw
-      output.rewind
-      output.print("┌")
-      output.print("─" * WIDTH)
-      output.puts("┐")
-
-      HEIGHT.times do |y|
-        output.print "│"
-        WIDTH.times do |x|
-          tile = pixels.fetch(Point.new(x,y), 0)
-          output.print TILES[tile]
-        end
-        output.puts "│"
-      end
-
-      output.print("└")
-      output.print("─" * WIDTH)
-      output.puts("┘")
+      setpos(point.y, point.x)
+      addstr(TILES[tile])
+      refresh
     end
   end
 end
